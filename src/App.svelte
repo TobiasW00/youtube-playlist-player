@@ -1,46 +1,56 @@
 <script>
 //	export let name;
-  import { onMount } from "svelte";
-  import Youtube from './components/Youtube.svelte';
+import { onMount } from "svelte";
+import Youtube from './components/Youtube.svelte';
 let videocount =0;
 let videos = [];
+let windowwidth = window.innerWidth;
+$: colcount =  Math.round( windowwidth/ 330)-1;
+$: videosordered = ordered(videos,colcount);
 
+const ordered = (arr, columns) => {
+        const cols = columns;
+        const out = [];
+        let col = 0;
+        while(col < cols) {
+            for(let i = 0; i < arr.length; i += cols) {
+                let _val = arr[i + col];
+               if (_val !== undefined)
+                    out.push(_val);
+            }
+            col++;
+        }
+		return out;
+}
 
-		async function getYouTubeVideos(youtubetoken) {
-			let url = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=8&playlistId='
-        url = (youtubetoken.length===0) ? url : url + "&pageToken="  + youtubetoken;
+async function getYouTubeVideos(youtubetoken) {
+		let url = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=' + colcount  +'&playlistId=PL94TjndaH-li6mJbaucN3lPaSuq-X9Jot&key=AIzaSyBn8oOlCCABDHovkRqgATMAzhhpewnZqB4'
+ 	    url = (youtubetoken.length===0) ? url : url + "&pageToken="  + youtubetoken;
 		const res = await fetch(url);
 		const json = await res.json();
 		if (res.ok) {
 				videocount = json.pageInfo.totalResults;
-				let temp = [];
-				json.items.forEach((video,i)=>{
+				json.items.filter((video,i)=>{
 							try{
-							let webpimageurl = video.snippet.thumbnails.high.url;
-							temp.push({id:video.id,title:video.snippet.title,description:video.snippet.description,image:webpimageurl,videoId:video.snippet.resourceId.videoId});			
-			
-							if(i===3 || i===7)
-							{
-							videos = [...videos,temp];	
-							temp = [];
-							}
+								return true;
 							}catch(err)
 							{
-							// console.log(video);
-							//PLy5WSqnI1QT2pIf0CFW5NEUP0UbwFxBRD&key=AIzaSyBn8oOlCCABDHovkRqgATMAzhhpewnZqB4
+							 return false
 							}
+							}).forEach((video) =>
+							{
+							let webpimageurl = video.snippet.thumbnails.high.url;
+							const v = {id:video.id,title:video.snippet.title,description:video.snippet.description,image:webpimageurl,videoId:video.snippet.resourceId.videoId};
+							videos = [...videos,v];	
 							});
+
 		  if(json.pageInfo.totalResults > videos.length){
            loadMoreTrigger(json.nextPageToken);
 		   }
-		
-
-
-
 		} else {
 			throw new Error(text);
 		}
-	}
+		}
 
 	  onMount(async function() {
 			getYouTubeVideos("");
@@ -67,29 +77,29 @@ function loadMoreTrigger(newyoutubekotekn)
    } 
    
    }
- 
+
+
 </script>
 
 <style>
-
+#youtube-box-div > div
+{
+	vertical-align: top;
+}
 </style>
-
+<svelte:window bind:innerWidth={windowwidth}/>
 <div>
 <div>{videos.length}</div>
+<div>{windowwidth}</div>
+<div>colcount {colcount}</div>
 
-<div>{videocount}</div>
-<div id="youtube-box-div">
-<table>
-	<tr>
-			{#each [0,1,2,3] as row}
-			<td>
-				{#each videos as video}
-					<Youtube video={video[row]} />
-				{/each}
-			</td>
+<div id="youtube-box-div" style="column-count: {colcount};">	
+			{#each videosordered as video,i}
+				<div>
+				{i}
+				<Youtube index={video.id} video={video} />
+				</div>
 			{/each}
-	</tr>
-</table>
 </div>
-	<div id="loadmore" />
+<div id="loadmore" />
 </div>
