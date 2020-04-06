@@ -1,0 +1,74 @@
+
+/* Youtube.svelte CSS */
+.youtube-box-div {
+    display: inline-block;
+    border:2px solid black;
+    border-radius:5%;
+    width:100%;
+    overflow: hidden;
+    height:500px;
+    box-sizing: border-box; 
+    text-align: center;
+}
+.description
+{
+    text-align: left;
+    overflow-y: hidden;
+    overflow-x:hidden;
+    margin-top: -60px;
+    font-size: .9em;
+    height:110px;
+    box-sizing: border-box; 
+    scrollbar-width: thin;	
+    padding:10px;
+}
+.youtubeheader
+{
+    background:#0fcabf;
+    color:white;
+    font-size: 1.1rem;
+    min-height: 60px;
+}
+h3
+{
+        margin:0;
+        padding:5px;
+}
+/* Index.svelte */
+
+.youtubebox
+{
+	display:inline-block;
+	overflow: hidden;
+	box-sizing: border-box; 
+	margin:5px;
+}
+#youtube-box-div
+{
+	text-align: center;
+	    font-family: 'Roboto', sans-serif;
+}
+
+/* playerpreview */
+.playerpreviewbox
+{
+width:100%;
+text-align: center;
+cursor:pointer;
+}
+.playimage
+{
+    position:relative;
+    z-index: 10;
+    opacity: .6;
+}
+
+/* player.svelte */
+iframe
+{
+width:100%;
+text-align: center;
+cursor:pointer;
+height:280px;
+padding-bottom: 60px;
+}
