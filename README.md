@@ -1,8 +1,16 @@
-*Psst — looking for a shareable component template? Go here --> [sveltejs/component-template](https://github.com/sveltejs/component-template)*
+*Template --> [sveltejs/component-template](https://github.com/sveltejs/component-template)*
 
 ---
 
-# svelte app
+# YouTube Playlist Player Web Component / custom element
+
+##Parameter
+
+<script src="<Path to CE>" type="module"></script>
+<youtube-player playlistid="<PlaylistID"> key="<Api-Key>" />
+
+
+
 
 This is a project template for [Svelte](https://svelte.dev) apps. It lives at https://github.com/sveltejs/template.
 
