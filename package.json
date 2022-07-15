@@ -12,7 +12,7 @@
     "autolinker": "^3.13.0",
     "rollup": "^2.3.2",
     "rollup-plugin-svelte": "^5.2.0",
-    "svelte": "^3.0.0"
+    "svelte": "^3.49.0"
   },
   "keywords": [
     "svelte"
